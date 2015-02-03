@@ -32,16 +32,16 @@ db DATA_DIR do
   action :stop
 end
 
-if node[:provider] != "azure"
-
-      log "  Creating block device..."
-
-      #See cookbooks/block_device/providers/default.rb for the "create" action.
-          block_device NICKNAME do
-          lineage node[:db][:backup][:lineage]
-          action :create
-      end
-end
+# if node[:provider] != "azure"
+#
+#       log "  Creating block device..."
+#
+#       #See cookbooks/block_device/providers/default.rb for the "create" action.
+#           block_device NICKNAME do
+#           lineage node[:db][:backup][:lineage]
+#           action :create
+#       end
+# end
 
 log "  Creating directory in the block device..."
 directory DATA_DIR do
