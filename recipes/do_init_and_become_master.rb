@@ -15,9 +15,9 @@ end
 DATA_DIR = node[:db][:data_dir]
 # See cookbooks/block_device/libraries/default.rb for the "get_device_or_default" method.
 
-# if node[:provider] != "azure"
-# NICKNAME = get_device_or_default(node, :device1, :nickname)
-# end
+if node[:cloud][:provider] != "azure"
+NICKNAME = get_device_or_default(node, :device1, :nickname)
+end
 
 log "  Verify if database state is 'uninitialized'..."
 # See cookbooks/db/definitions/db_init_status.rb for the "db_init_status" definition.
@@ -32,16 +32,16 @@ db DATA_DIR do
   action :stop
 end
 
-# if node[:provider] != "azure"
-#
-#       log "  Creating block device..."
-#
-#       #See cookbooks/block_device/providers/default.rb for the "create" action.
-#           block_device NICKNAME do
-#           lineage node[:db][:backup][:lineage]
-#           action :create
-#       end
-# end
+if node[:cloud][:provider] != "azure"
+
+      log "  Creating block device..."
+
+      #See cookbooks/block_device/providers/default.rb for the "create" action.
+          block_device NICKNAME do
+          lineage node[:db][:backup][:lineage]
+          action :create
+      end
+end
 
 log "  Creating directory in the block device..."
 directory DATA_DIR do
