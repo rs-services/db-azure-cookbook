@@ -15,7 +15,7 @@ end
 DATA_DIR = node[:db][:data_dir]
 # See cookbooks/block_device/libraries/default.rb for the "get_device_or_default" method.
 
-if node[:cloud] != "azure"
+if node[:provider] != "azure"
 NICKNAME = get_device_or_default(node, :device1, :nickname)
 end
 
@@ -32,7 +32,7 @@ db DATA_DIR do
   action :stop
 end
 
-if node[:cloud] != "azure"
+if node[:provider] != "azure"
 
       log "  Creating block device..."
 
