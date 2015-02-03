@@ -73,10 +73,16 @@ log "  Adding replication privileges for this master database..."
 # See cookbooks/db/recipes/setup_replication_privileges.rb for the "db::setup_replication_privileges" recipe.
 include_recipe "db::setup_replication_privileges"
 
+if node[:cloud][:provider] != "azure"
+
 log "  Perform a backup so slaves can init from this master..."
 # See cookbooks/db/definitions/db_request_backup.rb for the "db_request_backup" definition.
 db_request_backup "do backup"
+end
+
+if node[:cloud][:provider] != "azure"
 
 log "  Setting up cron to do scheduled backups..."
 # See cookbooks/db/recipes/do_primary_backup_schedule_enable.rb for the "db::do_primary_backup_schedule_enable" recipe.
 include_recipe "db::do_primary_backup_schedule_enable"
+end
